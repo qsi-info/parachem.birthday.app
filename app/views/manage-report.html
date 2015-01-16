@@ -34,7 +34,13 @@
  -->
 
 
- 		<h1>Rapport de Quart - {{report.Created | date}}</h1>
+ 		<h1>
+ 			Rapport de Quart - {{report.Created | date}}&nbsp;
+ 			<a href="javascript:;" id="lastNote" ng-show="lastNote" ng-click="markNoteAsRead()" data-toggle="modal" data-target="#lastNode">
+ 				<div id="pastille" ng-show="!report.HasReadNote"></div>
+ 				<i class="fa fa-envelope"></i>
+ 			</a>
+		</h1>
 
 
 
@@ -110,27 +116,33 @@
 		</table>
 
 
-
-		<table ng-show="lastReport" class="table">
-			<caption>Last Report</caption>
-			<tr>
-				<td>Id</td>
-				<td ng-bind="lastReport.Id"></td>
-			</tr>
-			<tr>
-				<td>Team</td>
-				<td ng-bind="lastReport.Team"></td>
-			</tr>
-			<tr>
-				<td>Period</td>
-				<td ng-bind="lastReport.Period"></td>
-			</tr>
-		</table>
 		
 		<button class="btn btn-success btn-block" ng-click="submitReport()">Commettre le rapport</button>
 		<a href="http://intranet" target="_top" class="btn btn-default btn-block" >Retourner à l'intranet</a>
 
 	</div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="lastNode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Note du dernier rapport</h4>
+      </div>
+      <div class="modal-body">
+        {{lastNote}}
+      </div>
+    </div>
+  </div>
 </div>
 
 

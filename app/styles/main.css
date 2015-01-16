@@ -33,3 +33,47 @@
 	right: 75px;
 	width: 270px !important;
 }
+
+
+#lastNote {
+	position: relative;
+	color: grey !important;
+}
+
+
+
+
+
+
+
+
+
+#pastille {
+  position:absolute;
+  z-index:2;
+  background: red;
+  width: auto;
+  min-width:20px;
+  height: 20px;
+  border-radius: 100px;
+  font-family: "Arial";
+  font-weight: 900;
+  font-size:14px;
+  text-align:center;
+  line-height:20px;
+  color: white;
+  border: 2px solid white;
+  overflow: hidden;
+  top: 2px;
+  right: 0px;
+    
+  background: #ffc9c9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffc9c9 1%, #ff4c4c 50%, #ff0000 51%, #ff0000 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffc9c9), color-stop(50%,#ff4c4c), color-stop(51%,#ff0000), color-stop(100%,#ff0000)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffc9c9 1%,#ff4c4c 50%,#ff0000 51%,#ff0000 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffc9c9 1%,#ff4c4c 50%,#ff0000 51%,#ff0000 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffc9c9 1%,#ff4c4c 50%,#ff0000 51%,#ff0000 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffc9c9 1%,#ff4c4c 50%,#ff0000 51%,#ff0000 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc9c9', endColorstr='#ff0000',GradientType=0 ); /* IE6-9 */
+
+}
