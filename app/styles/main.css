@@ -1,3 +1,35 @@
 .report-choice.selected i, .report-choice.selected .name {
   color: black !important;
 }
+
+.report-section {
+	padding-bottom: 25px !important;
+	border-top: 1px dotted grey;
+}
+
+
+.collapse.in ~ h4 > a {
+	color: green !important;
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);	
+}
+
+.comment-text {
+	color: black !important;
+}
+
+.remove-comment {
+	color: red !important;
+}
+
+.char-counter {
+	color: grey;
+	position: relative;
+	top: -10px;
+}
+
+.custom-sticky-class {
+	right: 75px;
+	width: 270px !important;
+}

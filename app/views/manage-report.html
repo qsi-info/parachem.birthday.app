@@ -55,10 +55,16 @@
 						</a>
 					</li>
 				</ul>
-				<form class="form" ng-submit="addComment(section.id)">
+				<form class="form" style="position: relative" ng-submit="addComment(section.id)">
 					<div class="form-group">
-						<textarea class="form-control" ng-model="inputs[section.id]" maxlength="255" placeholder="Maximum 255 charactères" rows="3"></textarea>
+						<textarea class="form-control" 
+											ng-model="inputs[section.id]" 
+											maxlength="255" 
+											id="{{section.id}}Comment"
+											placeholder="Maximum 255 charactères" 
+											rows="3"></textarea>
 					</div>
+					<span class="char-counter">{{inputs[section.id].length}}/255</span>
 					<button type="submit" class="btn btn-primary pull-right">Ajouter</button>
 					<br/>
 				</form>
@@ -80,7 +86,7 @@
 
 
 
-	<div class="col-md-3" sticky offset="34" style="right: 75px">
+	<div class="" sticky="" sticky-class="custom-sticky-class" offset="34">
 
 
 		<table ng-show="report" class="table table-hover table-striped">
@@ -121,7 +127,8 @@
 			</tr>
 		</table>
 		
-		<button class="btn btn-success btn-block" ng-click="submitReport()">Finaliser</button>
+		<button class="btn btn-success btn-block" ng-click="submitReport()">Commettre le rapport</button>
+		<a href="http://intranet" target="_top" class="btn btn-default btn-block" >Retourner à l'intranet</a>
 
 	</div>
 </div>

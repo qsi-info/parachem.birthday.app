@@ -147,29 +147,10 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 			CommentList.add(comment).then(function (addedComment) {
 				$scope.comments.push(addedComment);
 				$scope.inputs[section] = '';
+				document.getElementById(section + 'Comment').focus();
 				cfpLoadingBar.complete();				
 			});
 		};
-
-		// $scope.addSecuriteComment = function () {
-		// 	cfpLoadingBar.start();
-		// 	CommentList.add($scope.securite).then(function (addComment) {
-		// 		$scope.comments.push(addComment);
-		// 		$scope.securite.Title = '';
-		// 		cfpLoadingBar.complete();				
-		// 	});
-		// };
-
-
-		// $scope.addChaudieresComment = function () {
-		// 	cfpLoadingBar.start();
-		// 	CommentList.add($scope.chaudieres).then(function (addComment) {
-		// 		$scope.comments.push(addComment);
-		// 		$scope.chaudieres.Title = '';
-		// 		cfpLoadingBar.complete();				
-		// 	});			
-		// };
-
 
 		$scope.removeComment = function (comment) {
 			if (window.confirm('Etes-vous sur de vouloir supprimer cet élélement?')) {
@@ -184,10 +165,24 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 		};
 
 
-		$scope.submitReport = function () {
-			ReportList.update($scope.report.Id, { IsActive: false }).then(function () {
-				$location.path('/end-report');
+		$scope.editComment = function (comment) {
+			cfpLoadingBar.start();
+			var buffer = comment;
+			CommentList.remove(comment.Id).then(function () {
+				$scope.comments.splice($scope.comments.indexOf(comment), 1);
+				$scope.inputs[buffer.Section] = buffer.Title;
+				document.getElementById(buffer.Section + 'Comment').focus();
+				cfpLoadingBar.complete();				
 			});
+		};
+
+
+		$scope.submitReport = function () {
+			if (window.confirm('Etes-vous certain de vouloir soumettre le rapport? Ceci sera la version finale.')) {
+				ReportList.update($scope.report.Id, { IsActive: false }).then(function () {
+					$location.path('/end-report');
+				});
+			}
 		};
 
 
