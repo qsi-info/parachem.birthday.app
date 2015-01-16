@@ -13,8 +13,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngRoute',
-    // 'angular-loading-bar',
-    'cfp.loadingBar'
+    'cfp.loadingBar',
+    'sticky'
   ])
 
   .config(function ($routeProvider) {

@@ -8,6 +8,8 @@
  * Controller of the sharepointappApp
  */
 /*global $:false */
+/* jshint loopfunc:true */
+
 
 angular.module('sharepointappApp').controller('ManageReportCtrl', 
 	
@@ -17,34 +19,61 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 
 		$scope.comments = [];
 		$scope.isLoad = false;
+		$scope.sections = [
+			{ name: 'Sécurité', id: 'securite' },
+			{ name: 'Chaudières et Utilités', id: 'chaudieres' },
+			{ name: 'Hydrogène', id: 'hydrogene' },
+			{ name: 'Paraxylène', id: 'paraxylene' },
+			{ name: 'STDP', id: 'stdp' },
+			{ name: 'Tours d\'eau de refroidissement', id: 'tours' },
+			{ name: 'Divers', id: 'divers' },
+			{ name: 'Personnel', id: 'personnel' },
+		];
 
-		$('#securiteCollapse').on('show.bs.collapse', function () { $('#securiteIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });
-		$('#securiteCollapse').on('hide.bs.collapse', function () { $('#securiteIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });
+		$scope.inputs = {
+			securite: '',
+			chaudieres: '',
+			hydrogene: '',
+			paraxylene: '',
+			stdp: '',
+			tours: '',
+			divers: '',
+			personnel: '',
+		};
 
-		$('#chaudieresCollapse').on('show.bs.collapse', function () { $('#chaudieresIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });
-		$('#chaudieresCollapse').on('hide.bs.collapse', function () { $('#chaudieresIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });
 
 
-		ReportList.findOne($routeParams.id, '$select=Id,useLastReport,IsInitialize,IsActive,Team,Period,Author/Id,Author/Title&$expand=Author')
+		$('body').on('hide.bs.collapse', '#securiteCollapse', function () { $('#securiteIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });
+		$('body').on('show.bs.collapse', '#securiteCollapse', function () { $('#securiteIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });
+		
+		$('body').on('hide.bs.collapse', '#chaudieresCollapse', function () { $('#chaudieresIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#chaudieresCollapse', function () { $('#chaudieresIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#hydrogeneCollapse', function () { $('#hydrogeneIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#paraxyleneCollapse', function () { $('#paraxyleneIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#paraxyleneCollapse', function () { $('#paraxyleneIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#stdpCollapse', function () { $('#stdpIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#stdpCollapse', function () { $('#stdpIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#toursCollapse', function () { $('#toursIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#toursCollapse', function () { $('#toursIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+		
+		$('body').on('hide.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+		$('body').on('show.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+
+
+
+		ReportList.findOne($routeParams.id, '$select=Id,useLastReport,Created,IsInitialize,IsActive,Team,Period,Author/Id,Author/Title&$expand=Author')
 		.then(function (report) {
 
 			// Bind the report
 			$scope.report = report;
-
-
-			// Setup all sections here
-			$scope.securite = {
-				Title: '',
-				Section: 'securite',
-				ReportId: report.Id,
-			};
-
-			$scope.chaudieres = {
-				Title: '',
-				Section: 'chaudieres',
-				ReportId: report.Id,
-			};			
-
 
 			// If the last report is needed and this one has not been initialized
 			if (report.useLastReport && !report.IsInitialize) {
@@ -104,25 +133,42 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 		});
 
 
+		$scope.addComment = function (section) {
 
-		$scope.addSecuriteComment = function () {
+			if ($scope.inputs[section] === '') {
+				return window.alert('Vous devez entrez du texte');
+			}
 			cfpLoadingBar.start();
-			CommentList.add($scope.securite).then(function (addComment) {
-				$scope.comments.push(addComment);
-				$scope.securite.Title = '';
+			var comment = {
+				Title: $scope.inputs[section],
+				Section: section,
+				ReportId: $scope.report.Id,
+			};
+			CommentList.add(comment).then(function (addedComment) {
+				$scope.comments.push(addedComment);
+				$scope.inputs[section] = '';
 				cfpLoadingBar.complete();				
 			});
 		};
 
+		// $scope.addSecuriteComment = function () {
+		// 	cfpLoadingBar.start();
+		// 	CommentList.add($scope.securite).then(function (addComment) {
+		// 		$scope.comments.push(addComment);
+		// 		$scope.securite.Title = '';
+		// 		cfpLoadingBar.complete();				
+		// 	});
+		// };
 
-		$scope.addChaudieresComment = function () {
-			cfpLoadingBar.start();
-			CommentList.add($scope.chaudieres).then(function (addComment) {
-				$scope.comments.push(addComment);
-				$scope.chaudieres.Title = '';
-				cfpLoadingBar.complete();				
-			});			
-		};
+
+		// $scope.addChaudieresComment = function () {
+		// 	cfpLoadingBar.start();
+		// 	CommentList.add($scope.chaudieres).then(function (addComment) {
+		// 		$scope.comments.push(addComment);
+		// 		$scope.chaudieres.Title = '';
+		// 		cfpLoadingBar.complete();				
+		// 	});			
+		// };
 
 
 		$scope.removeComment = function (comment) {
