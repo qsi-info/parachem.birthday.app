@@ -1,0 +1,3 @@
+.report-choice.selected i, .report-choice.selected .name {
+  color: black !important;
+}

@@ -1,0 +1,150 @@
+
+
+<div class="row" ng-show="isLoad">
+
+
+	<div class="col-md-9">
+
+		<div class="report-section">
+			<h4>
+				<a href="javascript:;" data-target="#securiteCollapse" aria-expanded="true" data-toggle="collapse">
+					<i class="fa fa-caret-down" id="securiteIcon"></i>			
+					Sécurité
+				</a>
+			</h4>
+			<div class="collapse in" id="securiteCollapse">
+				<ul class="">
+					<li ng-repeat="comment in comments | filter:Section = 'securite'">
+						<a href="javascript:;" ng-click="editComment(comment)">{{comment.Title}}</a>
+						&nbsp;
+						<a href="javascript:;" ng-click="removeComment(comment)">
+							<i class="fa fa-remove"></i>
+						</a>
+					</li>
+				</ul>
+				<form class="form" ng-submit="addSecuriteComment()">
+					<div class="form-group">
+						<textarea class="form-control" ng-model="securite.Title" maxlength="255" placeholder="Maximum 255 charactères" rows="3"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+					<br/>
+				</form>
+			</div>
+		</div>
+
+
+
+		<div class="report-section">
+			<h4>
+				<a href="javascript:;" data-target="#chaudieresCollapse" aria-expanded="true" data-toggle="collapse">
+					<i class="fa fa-caret-down" id="chaudieresIcon"></i>			
+					Chaudières et Utilités
+				</a>
+			</h4>
+			<div class="collapse in" id="chaudieresCollapse">
+				<ul class="">
+					<li ng-repeat="comment in comments | filter:Section = 'chaudieres'">
+						<a href="javascript:;" ng-click="editComment(comment)">{{comment.Title}}</a>
+						&nbsp;
+						<a href="javascript:;" ng-click="removeComment(comment)">
+							<i class="fa fa-remove"></i>
+						</a>
+					</li>
+				</ul>
+				<form class="form" ng-submit="addChaudieresComment()">
+					<div class="form-group">
+						<textarea class="form-control" ng-model="chaudieres.Title" maxlength="255" placeholder="Maximum 255 charactères" rows="3"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+					<br/>
+				</form>
+			</div>			
+
+		</div>
+
+		<div class="report-section">
+			<h4>Hydrogène</h4>
+		</div>
+
+		<div class="report-section">
+			<h4>Paraxylène</h4>
+		</div>
+
+		<div class="report-section">
+			<h4>STDP</h4>
+		</div>
+
+		<div class="report-section">
+			<h4>Tours d'eau de refroidissement</h4>
+		</div>
+
+		<div class="report-section">
+			<h4>Divers</h4>
+		</div>
+
+		<div class="report-section">
+			<h4>Personnel</h4>
+		</div>
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="col-md-3">
+
+
+		<table ng-show="report" class="table table-hover table-striped">
+			<caption>Rapport unités d'opérations</caption>
+			<tr>
+				<td>Identifiant</td>
+				<td ng-bind="report.Id"></td>
+			</tr>
+			<tr>
+				<td>Responsable</td>
+				<td ng-bind="report.Author.Title"></td>
+			</tr>
+			<tr>
+				<td>Équipe</td>
+				<td ng-bind="report.Team"></td>
+			</tr>
+			<tr>
+				<td>Quart</td>
+				<td ng-bind="report.Period"></td>
+			</tr>
+		</table>
+
+
+
+		<table ng-show="lastReport" class="table">
+			<caption>Last Report</caption>
+			<tr>
+				<td>Id</td>
+				<td ng-bind="lastReport.Id"></td>
+			</tr>
+			<tr>
+				<td>Team</td>
+				<td ng-bind="lastReport.Team"></td>
+			</tr>
+			<tr>
+				<td>Period</td>
+				<td ng-bind="lastReport.Period"></td>
+			</tr>
+		</table>
+		
+		<button class="btn btn-success btn-block" ng-click="submitReport()">Finaliser</button>
+
+	</div>
+</div>
+
+
