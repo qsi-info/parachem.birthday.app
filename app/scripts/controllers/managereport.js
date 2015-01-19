@@ -73,7 +73,7 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 
 
 			// Startup algorithm
-			ReportList.findOne($routeParams.id, '$select=Id,useLastReport,HasReadNote,Created,IsInitialize,IsActive,Team,Period,Author/Id,Author/Title&$expand=Author').then(function (report) {
+			ReportList.findOne($routeParams.id, '$select=Id,useLastReport,Note,HasReadNote,Created,IsInitialize,IsActive,Team,Period,Author/Id,Author/Title&$expand=Author').then(function (report) {
 				$scope.report = report;
 				ReportList.find('&$filter=(IsActive eq 0)&$orderby=Modified desc&$top=1&$select=Note,Id').then(function (reports) {
 					if (reports.length > 0) {
@@ -186,9 +186,23 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 		};
 
 
+		$scope.saveNote = function () {
+			if ($scope.report.Note === '' || $scope.report.Note === null && typeof $scope.report.Note === 'object') {
+				return window.alert('Le message doit contenir de l\'information.');
+			}
+			cfpLoadingBar.start();			
+			ReportList.update($scope.report.Id, { Note: $scope.report.Note }).then(function () {
+				$('#myNote').modal('hide');
+				cfpLoadingBar.complete();				
+			});
+		};
+
+
 		$scope.submitReport = function () {
 			if (window.confirm('Etes-vous certain de vouloir soumettre le rapport? Ceci sera la version finale.')) {
+				cfpLoadingBar.start();			
 				ReportList.update($scope.report.Id, { IsActive: false }).then(function () {
+					cfpLoadingBar.complete();				
 					$location.path('/end-report');
 				});
 			}

@@ -3,7 +3,7 @@
 }
 
 .report-section {
-	padding-bottom: 25px !important;
+	padding-bottom: 40px !important;
 	border-top: 1px dotted grey;
 }
 
@@ -43,7 +43,12 @@
 
 
 
-
+#writeMessage {
+  font-size: 12px;
+  position: absolute;
+  right: 15px;
+  top: 40px;
+}
 
 
 
@@ -64,8 +69,8 @@
   color: white;
   border: 2px solid white;
   overflow: hidden;
-  top: 2px;
-  right: 0px;
+  top: -1px;
+  right: -8px;
     
   background: #ffc9c9; /* Old browsers */
 	background: -moz-linear-gradient(top,  #ffc9c9 1%, #ff4c4c 50%, #ff0000 51%, #ff0000 100%); /* FF3.6+ */
