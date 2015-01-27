@@ -17,7 +17,7 @@ angular
     'sticky'
   ])
 
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
 
       // Home
@@ -48,12 +48,12 @@ angular
       });
 
 
-  })
+  }])
 
-  .run(function ($location, SharePoint) {
+  .run(['$location', 'SharePoint', function ($location, SharePoint) {
     // Initialize the SharePoint librairy
     SharePoint.init($location.search().SPHostUrl, $location.search().SPAppWebUrl);
-  })
+  }])
 
   .factory('ReportList', ['SharePoint', function (SharePoint) {
     // Initialize the Report list as a factory
