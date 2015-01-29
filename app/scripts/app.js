@@ -53,6 +53,7 @@ angular
   .run(['$location', 'SharePoint', function ($location, SharePoint) {
     // Initialize the SharePoint librairy
     SharePoint.init($location.search().SPHostUrl, $location.search().SPAppWebUrl);
+
   }])
 
   .factory('ReportList', ['SharePoint', function (SharePoint) {
@@ -63,6 +64,36 @@ angular
   .factory('CommentList', ['SharePoint', function (SharePoint) {
     // Initialize the Comment list as a factory
     return new SharePoint.API.List('Commentaires de rapport');
+  }])
+
+
+
+  // This factory is a HACK
+  // It creates a fake item in a list to get the current user informations
+  // It then destroy the item.
+  .factory('User', ['SharePoint', '$q', function (SharePoint, $q) {
+    var dummyList = new SharePoint.API.List('CWPUserRequest');
+    var user;
+
+    return {
+      get: function () {
+        var deferred = $q.defer();
+        if (typeof user !== 'undefined') {
+          deferred.resolve(user);
+        } else {
+          dummyList.add({ Title: ''}).then(function (object) {
+            dummyList.findOne(object.Id, '$select=Author/Id,Author/Title&$expand=Author').then(function (item) {
+              user = item.Author;
+              dummyList.remove(object.Id).then(function () {
+                deferred.resolve(item.Author);
+              });
+            });
+          });
+        }
+        return deferred.promise;
+      }
+    };
+
   }]);
 
 

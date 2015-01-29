@@ -121,9 +121,11 @@
 <div class="row">
 	<div class="col-md-12">
 	  <!-- <a href="#/" class="btn btn-default pull-left">Retour</a> -->
-	  <button class="btn btn-success pull-right" ng-click="create()">Commencez le rapport</button>
-      <a href="http://intranet" target="_top" class="btn btn-default pull-left" >Annuler</a>
+	  <button class="btn btn-success pull-right" ng-click="create()">Commencez un nouveau rapport</button>
+      <a ng-show="accessLastReport" class="btn btn-default" href="{{lastReportUrl}}">Modifier mon dernier rapport</a>
+      <!-- <a href="http://intranet" target="_top" class="btn btn-default pull-left" >Annuler</a> -->
 	</div>
+
 </div>
 
 
@@ -131,6 +133,8 @@
 
 
 	</div>
+
+
 
 
 </div>

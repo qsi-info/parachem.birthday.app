@@ -56,20 +56,27 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 			// Caret icon orientation when section collapse or open
 			$('body').on('hide.bs.collapse', '#securiteCollapse', function () { $('#securiteIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });
 			$('body').on('show.bs.collapse', '#securiteCollapse', function () { $('#securiteIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });
+			
 			$('body').on('hide.bs.collapse', '#chaudieresCollapse', function () { $('#chaudieresIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
 			$('body').on('show.bs.collapse', '#chaudieresCollapse', function () { $('#chaudieresIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			
 			$('body').on('hide.bs.collapse', '#hydrogeneCollapse', function () { $('#hydrogeneIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
-			$('body').on('show.bs.collapse', '#paraxyleneCollapse', function () { $('#paraxyleneIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			$('body').on('show.bs.collapse', '#hydrogeneCollapse', function () { $('#hydrogeneIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			
 			$('body').on('hide.bs.collapse', '#paraxyleneCollapse', function () { $('#paraxyleneIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
-			$('body').on('show.bs.collapse', '#stdpCollapse', function () { $('#stdpIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			$('body').on('show.bs.collapse', '#paraxyleneCollapse', function () { $('#paraxyleneIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+
 			$('body').on('hide.bs.collapse', '#stdpCollapse', function () { $('#stdpIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
-			$('body').on('show.bs.collapse', '#toursCollapse', function () { $('#toursIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			$('body').on('show.bs.collapse', '#stdpCollapse', function () { $('#stdpIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+
 			$('body').on('hide.bs.collapse', '#toursCollapse', function () { $('#toursIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+			$('body').on('show.bs.collapse', '#toursCollapse', function () { $('#toursIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+
 			$('body').on('show.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
 			$('body').on('hide.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
-			$('body').on('show.bs.collapse', '#diversCollapse', function () { $('#diversIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
-			$('body').on('hide.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
+
 			$('body').on('show.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-right').addClass('fa-caret-down'); });			
+			$('body').on('hide.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
 
 
 			// Startup algorithm
