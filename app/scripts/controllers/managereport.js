@@ -78,13 +78,21 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 			$('body').on('hide.bs.collapse', '#personnelCollapse', function () { $('#personnelIcon').removeClass('fa-caret-down').addClass('fa-caret-right'); });			
 
 
-			// Startup algorithm
+
+
+
+			///////////////////////////////////////////////////////////
+			// Startup algorithm //////////////////////////////////////
+			///////////////////////////////////////////////////////////
 			ReportList.findOne($routeParams.id, '$select=Id,useLastReport,Note,HasReadNote,Created,IsInitialize,IsActive,Team,Period,Author/Id,Author/Title&$expand=Author').then(function (report) {
 				$scope.report = report;
-				ReportList.find('&$filter=(IsActive eq 0)&$orderby=Modified desc&$top=1&$select=Note,Id').then(function (reports) {
+				ReportList.find('$filter=(IsActive eq 0)&$orderby=Modified desc&$top=1&$select=Note,Id,IsActive').then(function (reports) {
 					if (reports.length > 0) {
 						var lastReport = reports[0];
-						$scope.lastNote = lastReport.Note;
+
+							$scope.lastNote = lastReport.Note;
+						
+						// Report is already initialized
 						if (report.IsInitialize) {
 							console.log('Is initialized');
 							CommentList.find('$filter=(Report eq \'' + report.Id + '\')').then(function (comments) {
@@ -94,6 +102,8 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 								cfpLoadingBar.complete();
 								$scope.isLoad = true;
 							});
+
+						// Report is NOT initialized and wants to use the last report comments as a startup template
 						} else if (report.useLastReport) {
 							console.log('User last report');
 							CommentList.find('$filter=(Report eq \'' + lastReport.Id + '\')').then(function (comments) {
@@ -117,7 +127,10 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 										$scope.isLoad = true;
 									});
 								}
-							});						
+							});
+
+
+						// Report is NOT initialized but wants to start with a blank template
 						} else {
 							console.log('Plain report');
 							ReportList.update(report.Id, { IsInitialize: true }).then(function () {
@@ -125,6 +138,9 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 								$scope.isLoad = true;
 							});
 						}
+
+
+					// This is the first report EVER
 					} else {
 						console.log('First plain report');
 						ReportList.update(report.Id, { IsInitialize: true }).then(function () {
@@ -135,6 +151,11 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 				});
 			});
 		}
+		///////////////////////////////////////////////////////////
+		// End Startup algorithm ///////////////////////////////////
+		///////////////////////////////////////////////////////////
+
+
 
 
 		// initialization
