@@ -24,7 +24,7 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
 
 
 
-  var app, host, executor;
+  var app, host, executor, sender;
 
 
 
@@ -211,10 +211,17 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
       _put: _sharepoint_put_request,
       _delete : _sharepoint_delete_request,
     },
-    init: function (hostUrl, appUrl) {
+    init: function (hostUrl, appUrl, senderId) {
       host = hostUrl;
       app  = appUrl;
+      sender = senderId;
       executor = new window.SP.RequestExecutor(app);
+    },
+
+    resizeCWP: function () {
+      var width = '100%';
+      var height = document.body.clientHeight;
+      window.parent.postMessage('<message senderId=' + sender + '>resize(' + width + ',' + height + ')</message>', '*');      
     }
   };
 

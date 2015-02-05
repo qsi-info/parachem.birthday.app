@@ -8,6 +8,19 @@
  *
  * Main module of the application.
  */
+
+
+function parseQueryString() {
+  var query = (window.location.search || '?').substr(1);
+  var map = {};
+  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
+    (map[key] = map[key] || []).push(window.decodeURIComponent(value));
+  });
+  return map;
+}
+
+
+
 angular
   .module('sharepointappApp', [
     'ngCookies',
@@ -50,9 +63,29 @@ angular
 
   }])
 
-  .run(['$location', 'SharePoint', function ($location, SharePoint) {
-    // Initialize the SharePoint librairy
-    SharePoint.init($location.search().SPHostUrl, $location.search().SPAppWebUrl);
+  .run(['SharePoint', '$location', function (SharePoint, $location) {
+
+    var host, app, params, sender, isWebPart = true;
+
+    try {
+      params = parseQueryString();
+      host = params.SPHostUrl[0];
+      app = params.SPAppWebUrl[0];
+      sender = params.SenderId[0];
+    } catch(e) {
+      params = $location.search();
+      host = params.SPHostUrl;
+      app = params.SPAppWebUrl;
+      sender = params.SenderId;
+      isWebPart = false;
+    }
+
+
+    SharePoint.init(host, app, sender);
+    if (isWebPart) {
+      SharePoint.resizeCWP();
+    }
+
   }])
 
   .factory('ReportList', ['SharePoint', function (SharePoint) {

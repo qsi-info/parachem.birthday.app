@@ -19,7 +19,6 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 	function ($scope, $location, ReportList, CommentList, $routeParams, cfpLoadingBar) {
 
 		function init () {
-
 			cfpLoadingBar.start();
 
 			// Comments array
