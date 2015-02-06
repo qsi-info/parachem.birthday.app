@@ -40,21 +40,6 @@ angular
       })
 
 
-      .when('/new-report', {
-        templateUrl: 'views/new-report.html',
-        controller: 'NewReportCtrl',
-      })
-
-      .when('/manage-report/:id', {
-        templateUrl: 'views/manage-report.html',
-        controller: 'ManageReportCtrl',
-      })
-
-
-      .when('/end-report', {
-        templateUrl: 'views/end-report.html'
-      })
-
       // Default
       .otherwise({
         redirectTo: '/'
