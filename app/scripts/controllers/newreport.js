@@ -32,7 +32,7 @@ angular.module('sharepointappApp').controller('NewReportCtrl',
 				ReportList.find('$filter=(Author/Id eq \'' + user.Id + '\') and (IsActive eq 0)&$orderby=Modified desc&$top=1').then(function (reports) {
 					if (reports.length > 0) {
 						$scope.accessLastReport = true;
-						$scope.lastReportUrl = '#/manage-report/' + reports[0].Id;
+						$scope.lastReportUrl = '#/manage-report/' + reports[0].Id + '?review=yes';
 					}
 					$scope.isLoad = true;
 					cfpLoadingBar.complete();

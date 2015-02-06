@@ -18,6 +18,8 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 	
 	function ($scope, $location, ReportList, CommentList, $routeParams, cfpLoadingBar) {
 
+		console.log($routeParams.review);
+
 		function init () {
 			cfpLoadingBar.start();
 
@@ -90,7 +92,10 @@ angular.module('sharepointappApp').controller('ManageReportCtrl',
 					if (reports.length > 0) {
 						var lastReport = reports[0];
 
+						// This line prevent os seeing the same message when reviewing our report.
+						if (!$routeParams.review && $routeParams.review !== 'yes') {
 							$scope.lastNote = lastReport.Note;
+						}
 						
 						// Report is already initialized
 						if (report.IsInitialize) {
