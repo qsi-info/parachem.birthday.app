@@ -33,22 +33,27 @@ angular
     $routeProvider
 
       // Home
-      .when('/', {
+      .when('/home', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
+      })
+
+      .when('/gateway', {
+        template: '',
+        controller: 'GatewayCtrl',
       })
 
 
       // Default
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/gateway'
       });
 
 
   }])
 
 
-  .run(['SharePoint', '$location', function (SharePoint, $location) {
+  .run(['$location', '$rootScope', function ($location, $rootScope) {
 
     var host, app, params, sender, isWebPart = true;
 
@@ -65,44 +70,45 @@ angular
       isWebPart = false;
     }
 
+    $rootScope.sp = {
+      host: host,
+      app: app, 
+      sender: sender,
+      isWebPart: isWebPart,
+    };
 
-    SharePoint.init(host, app, sender);
-    if (isWebPart) {
-      SharePoint.resizeCWP();
-    }
 
-
-  }])
+  }]);
 
 
 
   // This factory is a HACK
   // It creates a fake item in a list to get the current user informations
   // It then destroy the item.
-  .factory('User', ['SharePoint', '$q', function (SharePoint, $q) {
-    var dummyList = new SharePoint.API.List('CWPUserRequest');
-    var user;
+  // .factory('User', ['SharePoint', '$q', function (SharePoint, $q) {
+  //   var dummyList = new SharePoint.API.List('CWPUserRequest');
+  //   var user;
 
-    return {
-      get: function () {
-        var deferred = $q.defer();
-        if (typeof user !== 'undefined') {
-          deferred.resolve(user);
-        } else {
-          dummyList.add({ Title: ''}).then(function (object) {
-            dummyList.findOne(object.Id, '$select=Author/Id,Author/Title&$expand=Author').then(function (item) {
-              user = item.Author;
-              dummyList.remove(object.Id).then(function () {
-                deferred.resolve(item.Author);
-              });
-            });
-          });
-        }
-        return deferred.promise;
-      }
-    };
+  //   return {
+  //     get: function () {
+  //       var deferred = $q.defer();
+  //       if (typeof user !== 'undefined') {
+  //         deferred.resolve(user);
+  //       } else {
+  //         dummyList.add({ Title: ''}).then(function (object) {
+  //           dummyList.findOne(object.Id, '$select=Author/Id,Author/Title&$expand=Author').then(function (item) {
+  //             user = item.Author;
+  //             dummyList.remove(object.Id).then(function () {
+  //               deferred.resolve(item.Author);
+  //             });
+  //           });
+  //         });
+  //       }
+  //       return deferred.promise;
+  //     }
+  //   };
 
-  }]);
+  // }]);
 
 
 

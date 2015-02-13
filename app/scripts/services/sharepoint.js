@@ -10,17 +10,9 @@
 angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
 
   /*jshint validthis:true */
-
-  /** Test is the essentials scripts from sharepoint are loaded, to fix that, add those scripts to your application index.html head
-   * <script type="text/javascript" src="<sharepoint-url>/_layouts/15/MicrosoftAjax.js"></script>
-   * <script type="text/javascript" src="<sharepoint-url>/_layouts/15/sp.runtime.js"></script>
-   * <script type="text/javascript" src="<sharepoint-url>/_layouts/15/sp.js"></script>
-   * <script type="text/javascript" src="<sharepoint-url>/_layouts/15/sp.requestexecutor.js"></script>     
-   */
-  if (typeof window.SP === 'undefined') {
-    console.warn('SharePoint cross domain javascript librairies are missing');
-    return false;
-  }
+  /*global $:false */
+  /*jslint browser: true, plusplus: true */  
+  /*jshint loopfunc: true */
 
 
 
@@ -203,14 +195,49 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
 
 
   function _sharepoint_get_current_user () {
-    var ctx = window.SP.ClientContext().get_current();
-    var user = ctx.get_web().get_currentUser();
-    ctx.load(user);
-    var deferred = $q.defer();
-    ctx.executeQueryAsync(function () {
-      deferred.resole(user);
+    var context, factory, appContextSite, user, deferred;
+    context = new window.SP.ClientContext(app);
+    factory = new window.SP.ProxyWebRequestExecutorFactory(app);
+    context.set_webRequestExecutorFactory(factory);
+    appContextSite = new window.SP.AppContextSite(context, host);
+
+    user = appContextSite.get_web().get_currentUser();
+    context.load(user);
+
+    deferred = new $q.defer();
+    context.executeQueryAsync(function () {
+      deferred.resolve(user);
     }, deferred.reject);
     return deferred.promise;
+  }
+
+
+
+
+  function _init (hostUrl, appUrl, senderId) {
+
+    host = hostUrl;
+    app  = appUrl;
+    sender = senderId;
+
+
+    var init = $q.defer();
+
+
+    $.getScript(host + '/_layouts/15/MicrosoftAjax.js', function () {
+      $.getScript(host + '/_layouts/15/sp.runtime.js', function () {
+        $.getScript(host + '/_layouts/15/sp.js', function () {
+          $.getScript(host + '/_layouts/15/sp.requestexecutor.js', function () {
+            console.log('done');
+            executor = new window.SP.RequestExecutor(app);      
+            init.resolve(true);
+          });
+        });
+      });
+    });
+
+
+    return init.promise;
   }
 
 
@@ -224,13 +251,7 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
       _delete : _sharepoint_delete_request,
       me: _sharepoint_get_current_user,
     },
-    init: function (hostUrl, appUrl, senderId) {
-      host = hostUrl;
-      app  = appUrl;
-      sender = senderId;
-      executor = new window.SP.RequestExecutor(app);
-    },
-
+    init: _init,
     resizeCWP: function () {
       var width = '100%';
       var height = document.body.clientHeight;
