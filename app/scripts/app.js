@@ -75,16 +75,6 @@ angular
 
   }])
 
-  .factory('ReportList', ['SharePoint', function (SharePoint) {
-    // Initialize the Report list as a factory
-    return new SharePoint.API.List('Rapports de quart');
-  }])
-
-  .factory('CommentList', ['SharePoint', function (SharePoint) {
-    // Initialize the Comment list as a factory
-    return new SharePoint.API.List('Commentaires de rapport');
-  }])
-
 
 
   // This factory is a HACK
@@ -113,27 +103,6 @@ angular
       }
     };
 
-  }])
-
-
-
-  .filter('periodPicker', [function () {
-    return function (input) {
-      return input === 'day' ? 'Jour' : 'Nuit';
-    };
-  }])
-
-
-
-
-
-  .filter('highlight', ['$sce', function($sce) {
-    return function(text, phrase) {
-      if (phrase) {
-        text = text.replace(new RegExp('('+phrase+')', 'gi'), '<span class="highlighted">$1</span>');
-      }
-      return $sce.trustAsHtml(text);
-    };
   }]);
 
 
