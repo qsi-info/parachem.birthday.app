@@ -159,6 +159,21 @@ angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q
 
 
     this.find = function (where) {
+      var acc;
+      if (typeof where !== 'string') {
+        acc = '';
+        for(var i=0, len=where.length; i < len; i++) {
+          acc += where[i];
+          if (i < len - 1) {
+            acc += '&';
+          }
+        }
+      }
+
+      if (typeof acc !== 'undefined') {
+        where = acc;
+      }
+
       var deferred = $q.defer();
       _sharepoint_get_request('/web/lists/getByTitle(\'' + listTitle + '\')/items', where)
       .then(function (response) {
@@ -189,6 +204,27 @@ angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q
       .catch(deferred.reject);
       return deferred.promise;          
     };
+
+    this.count = function () {
+      var deferred = $q.defer();
+      _sharepoint_get_request('/web/lists/getByTitle(\'' + listTitle + '\')/ItemCount')
+      .then(function (response) {
+        deferred.resolve(JSON.parse(response.body).d);
+      })
+      .catch(deferred.reject);
+      return deferred.promise;        
+    };
+
+    this.lastModification = function () {
+      var deferred = $q.defer();
+      _sharepoint_get_request('/web/lists/getByTitle(\'' + listTitle + '\')/LastItemModifiedDate')
+      .then(function (response) {
+        deferred.resolve(JSON.parse(response.body).d);
+      })
+      .catch(deferred.reject);
+      return deferred.promise;       
+    };
+    
   }
 
 
@@ -210,6 +246,34 @@ angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q
     return deferred.promise;
   }
 
+
+  function _sharepoint_get_user_group () {
+    var context, factory, appContextSite, user, deferred;
+    context = new window.SP.ClientContext(app);
+    factory = new window.SP.ProxyWebRequestExecutorFactory(app);
+    context.set_webRequestExecutorFactory(factory);
+    appContextSite = new window.SP.AppContextSite(context, host);
+
+    user = appContextSite.get_web().get_currentUser();
+    context.load(user);
+
+
+    deferred = $q.defer();
+    context.executeQueryAsync(function () {
+      var groups = user.get_groups();
+      context.load(groups);
+      context.executeQueryAsync(function () {
+        var groupArray = [];
+        var groupEnumerator = groups.getEnumerator();
+        while (groupEnumerator.moveNext()) {
+          groupArray.push(groupEnumerator.get_current());
+        }
+        deferred.resolve(groupArray);
+      });
+    });
+
+    return deferred.promise;
+  }
 
 
 
@@ -241,6 +305,39 @@ angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q
 
 
 
+  function _OData () {
+
+    return {
+
+      filter: function (v1, cmp, v2) {
+        return ' (' + v1 + ' ' + cmp + ' \'' + v2 + '\') ';
+      },
+
+      groupFilter: function (groups)  {
+        var acc = '(';
+        var EVERYONE_GROUP_ID = 4;
+        // If user has no group, he is part of the everyone group
+        // Unfortunately, SharePoint doesnt handle well the Everyone group.
+        // This variable can be change or the next line remove is a common group is setup.
+        acc += 'GroupFilter/Id eq ' + EVERYONE_GROUP_ID;
+        if (groups.length > 0) {
+            acc += ' or ';
+        }
+        for (var i = 0, len = groups.length; i < len; i++) {
+          acc += 'GroupFilter/Id eq ' + groups[i].get_id();
+          if (i < len - 1) { 
+            acc += ' or '; 
+          }
+        }
+        return acc + ')';    
+      }
+    };
+
+
+  }
+
+
+
   return {
     API: {
       List : _List,
@@ -249,7 +346,9 @@ angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q
       _put: _sharepoint_put_request,
       _delete : _sharepoint_delete_request,
       me: _sharepoint_get_current_user,
+      groups: _sharepoint_get_user_group,
     },
+    OData: _OData,
     init: _init,
     resizeCWP: function (suggestHeight) {
       var width = '100%';

@@ -10,6 +10,15 @@
  */
 
 
+function parseQueryString() {
+  var query = (window.location.search || '?').substr(1);
+  var map = {};
+  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
+    (map[key] = map[key] || []).push(window.decodeURIComponent(value));
+  });
+  return map;
+}
+
 
 
 angular
@@ -75,15 +84,6 @@ angular
 
 
 
-
-function parseQueryString() {
-  var query = (window.location.search || '?').substr(1);
-  var map = {};
-  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
-    (map[key] = map[key] || []).push(window.decodeURIComponent(value));
-  });
-  return map;
-}
 
 
 
