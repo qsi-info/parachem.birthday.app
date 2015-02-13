@@ -8,10 +8,11 @@
  * Controller of the sharepointappApp
  */
 
- /*global $:false */
- /*global moment:false */
-angular.module('sharepointappApp').controller('MainCtrl', [ function () {
+angular.module('sharepointappApp').controller('MainCtrl', ['SharePoint', function (SharePoint) {
 
+	SharePoint.API.me().success(function (user) {
+		console.log(user);
+	});
 
 }]);
 

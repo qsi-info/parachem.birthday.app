@@ -27,7 +27,6 @@ angular
     'ngResource',
     'ngRoute',
     'cfp.loadingBar',
-    'sticky'
   ])
 
   .config(['$routeProvider', function ($routeProvider) {

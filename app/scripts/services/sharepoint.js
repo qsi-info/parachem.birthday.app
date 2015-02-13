@@ -202,6 +202,18 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
 
 
 
+  function _sharepoint_get_current_user () {
+    var ctx = window.SP.ClientContext().get_current();
+    var user = ctx.get_web().get_currentUser();
+    ctx.load(user);
+    var deferred = $q.defer();
+    ctx.executeQueryAsync(function () {
+      deferred.resole(user);
+    }, deferred.reject);
+    return deferred.promise;
+  }
+
+
 
   return {
     API: {
@@ -210,6 +222,7 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
       _post : _sharepoint_post_request,
       _put: _sharepoint_put_request,
       _delete : _sharepoint_delete_request,
+      me: _sharepoint_get_current_user,
     },
     init: function (hostUrl, appUrl, senderId) {
       host = hostUrl;
