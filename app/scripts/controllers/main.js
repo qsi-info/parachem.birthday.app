@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name sharepointappApp.controller:MainCtrl
+ * @name AngularSharePointApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the sharepointappApp
+ * Controller of the AngularSharePointApp
  */
 
-angular.module('sharepointappApp').controller('MainCtrl', [function () {
+angular.module('AngularSharePointApp').controller('MainCtrl', [function () {
 
 
 }]);

@@ -2,27 +2,18 @@
 
 /**
  * @ngdoc overview
- * @name sharepointappApp
+ * @name AngularSharePointApp
  * @description
- * # sharepointappApp
+ * # AngularSharePointApp
  *
  * Main module of the application.
  */
 
 
-function parseQueryString() {
-  var query = (window.location.search || '?').substr(1);
-  var map = {};
-  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
-    (map[key] = map[key] || []).push(window.decodeURIComponent(value));
-  });
-  return map;
-}
-
 
 
 angular
-  .module('sharepointappApp', [
+  .module('AngularSharePointApp', [
     'ngCookies',
     'ngResource',
     'ngRoute',
@@ -38,11 +29,11 @@ angular
         controller: 'MainCtrl'
       })
 
+      // Setup
       .when('/gateway', {
         template: '',
         controller: 'GatewayCtrl',
       })
-
 
       // Default
       .otherwise({
@@ -82,38 +73,17 @@ angular
 
 
 
-  // This factory is a HACK
-  // It creates a fake item in a list to get the current user informations
-  // It then destroy the item.
-  // .factory('User', ['SharePoint', '$q', function (SharePoint, $q) {
-  //   var dummyList = new SharePoint.API.List('CWPUserRequest');
-  //   var user;
-
-  //   return {
-  //     get: function () {
-  //       var deferred = $q.defer();
-  //       if (typeof user !== 'undefined') {
-  //         deferred.resolve(user);
-  //       } else {
-  //         dummyList.add({ Title: ''}).then(function (object) {
-  //           dummyList.findOne(object.Id, '$select=Author/Id,Author/Title&$expand=Author').then(function (item) {
-  //             user = item.Author;
-  //             dummyList.remove(object.Id).then(function () {
-  //               deferred.resolve(item.Author);
-  //             });
-  //           });
-  //         });
-  //       }
-  //       return deferred.promise;
-  //     }
-  //   };
-
-  // }]);
 
 
 
-
-
+function parseQueryString() {
+  var query = (window.location.search || '?').substr(1);
+  var map = {};
+  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function (match, key, value) {
+    (map[key] = map[key] || []).push(window.decodeURIComponent(value));
+  });
+  return map;
+}
 
 
 

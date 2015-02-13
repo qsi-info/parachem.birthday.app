@@ -7,7 +7,7 @@
  * @version 0.0.0.0
  *
  */
-angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
+angular.module('AngularSharePointApp').factory('SharePoint', ['$q', function ($q) {
 
   /*jshint validthis:true */
   /*global $:false */
@@ -17,7 +17,6 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
 
 
   var app, host, executor, sender;
-
 
 
   function _sharepoint_get_request (endpoint, odata) {
@@ -204,7 +203,7 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
     user = appContextSite.get_web().get_currentUser();
     context.load(user);
 
-    deferred = new $q.defer();
+    deferred = $q.defer();
     context.executeQueryAsync(function () {
       deferred.resolve(user);
     }, deferred.reject);
@@ -252,9 +251,9 @@ angular.module('sharepointappApp').factory('SharePoint', ['$q', function ($q) {
       me: _sharepoint_get_current_user,
     },
     init: _init,
-    resizeCWP: function () {
+    resizeCWP: function (suggestHeight) {
       var width = '100%';
-      var height = document.body.clientHeight;
+      var height = suggestHeight || document.body.clientHeight;
       window.parent.postMessage('<message senderId=' + sender + '>resize(' + width + ',' + height + ')</message>', '*');      
     }
   };
