@@ -8,14 +8,11 @@
  * Controller of the AngularSharePointApp
  */
 
-angular.module('AngularSharePointApp').controller('MainCtrl', ['SharePoint', function (SharePoint) {
+angular.module('AngularSharePointApp').controller('MainCtrl', ['$rootScope', '$location', function ($rootScope, $location) {
 
-
-	var list = new SharePoint.API.List('Rapports Laboratoire');
-
-	list.lastModification().then(function (count) {
-		console.log(count);
-	});
+	if (typeof $rootScope.isInitialize === 'undefined' || !$rootScope.isInitialize) {
+		return $location.path('/gateway');
+	}
 
 }]);
 

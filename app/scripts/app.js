@@ -44,6 +44,10 @@ angular
         controller: 'GatewayCtrl',
       })
 
+      .when('/reload', {
+        templateUrl: 'views/reload.html',
+      })      
+
       // Default
       .otherwise({
         redirectTo: '/gateway'
@@ -76,6 +80,8 @@ angular
       sender: sender,
       isWebPart: isWebPart,
     };
+
+    $rootScope.isInitialize = false;
 
 
   }]);
