@@ -14,6 +14,8 @@ angular.module('AngularSharePointApp').controller('MainCtrl', ['$rootScope', '$l
 		return $location.path('/gateway');
 	}
 
+	console.log($rootScope.me)
+
 }]);
 
 
