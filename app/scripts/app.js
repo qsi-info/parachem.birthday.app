@@ -53,7 +53,7 @@ angular.module('AngularSharePointApp', ['ngSharePoint', 'ngRoute'])
 		});
 
 		for (var i = 0; i < $scope.people.length; i++) {
-			if ($rootScope.me.get_id() == $scope.people[i].Id) {
+			if ($rootScope.me.get_id() === $scope.people[i].Id) {
 				$scope.myBirthday = true;
 			}
 		}

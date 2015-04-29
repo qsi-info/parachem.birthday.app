@@ -308,9 +308,18 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/{,*/}*.*'
+            'fonts/{,*/}*.*',
           ]
-        }, {
+        }, 
+
+        {
+          expand: true,
+          cwd: 'bower_components/angular-sharepoint',
+          src: ['views/*.html'],
+          dest: '<%= yeoman.dist %>/bower_components/angular-sharepoint',
+        },
+
+        {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
