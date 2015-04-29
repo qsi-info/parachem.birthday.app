@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-md-12">
+
+
+		<div class="well">
+			<p ng-repeat="person in people" ng-show="person.Id != $root.me.get_id()" >
+				Bonne fête à {{person.Title}}
+			</p>
+
+
+			<h4 ng-show="myBirthday">
+				Bonne Fête à toi {{$root.me.get_title()}}&nbsp;
+				<i class="fa fa-birthday-cake"></i>
+			</h4>
+
+			<h4 ng-show="people.length < 1">Aucune fête aujourd'hui</h4>
+
+		</div>
+
+
+
+	</div>
+</div>
+
+
