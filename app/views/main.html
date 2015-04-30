@@ -4,7 +4,9 @@
 
 		<div class="well">
 			<p ng-repeat="person in people" ng-show="person.Id != $root.me.get_id()" >
-				Bonne fête à {{person.Title}}
+				<img src="./images/ballon.gif" height="60"/>
+				Bonne fête à <strong class="personBirthday">{{person.Title}}</strong>
+				<img src="./images/gift.gif" height="60"/>
 			</p>
 
 

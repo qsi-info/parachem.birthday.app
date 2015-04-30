@@ -314,9 +314,9 @@ module.exports = function (grunt) {
 
         {
           expand: true,
-          cwd: 'bower_components/angular-sharepoint',
-          src: ['views/*.html'],
-          dest: '<%= yeoman.dist %>/bower_components/angular-sharepoint',
+          cwd: 'bower_components/',
+          src: ['**'],
+          dest: '<%= yeoman.dist %>/bower_components/',
         },
 
         {
