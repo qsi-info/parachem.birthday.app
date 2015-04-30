@@ -2,17 +2,16 @@
 	<div class="col-md-12">
 
 
-		<div class="well">
-			<p ng-repeat="person in people" ng-show="person.Id != $root.me.get_id()" >
-				<img src="./images/ballon.gif" height="60"/>
+		<div class="well special-well">
+			<p style="text-align: center;" ng-repeat="person in people" ng-show="person.Id != $root.me.get_id()" >
+				<img src="./images/ballon.gif" height="40"/>
 				Bonne fête à <strong class="personBirthday">{{person.Title}}</strong>
-				<img src="./images/gift.gif" height="60"/>
+				<img src="./images/gift.gif" height="40"/>
 			</p>
 
 
 			<h4 ng-show="myBirthday">
 				Bonne Fête à toi {{$root.me.get_title()}}&nbsp;
-				<i class="fa fa-birthday-cake"></i>
 			</h4>
 
 			<h4 ng-show="people.length < 1">Aucune fête aujourd'hui</h4>

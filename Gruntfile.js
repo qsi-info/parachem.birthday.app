@@ -315,7 +315,7 @@ module.exports = function (grunt) {
         {
           expand: true,
           cwd: 'bower_components/',
-          src: ['**'],
+          src: ['**/views/*.html'],
           dest: '<%= yeoman.dist %>/bower_components/',
         },
 

@@ -1,3 +1,9 @@
 .personBirthday {
 	text-decoration: underline;
 }
+
+.special-well {
+	padding: 0px !important;
+	margin-bottom: 0px !important;
+	border: none;
+}
