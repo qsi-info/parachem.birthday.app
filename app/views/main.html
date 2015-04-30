@@ -6,12 +6,13 @@
 			<p style="text-align: center;" ng-repeat="person in people" ng-show="person.Id != $root.me.get_id()" >
 				<img src="./images/ballon.gif" height="40"/>
 				Bonne fête à <strong class="personBirthday">{{person.Title}}</strong>
-				<img src="./images/gift.gif" height="40"/>
+				<!-- <img src="./images/ballon.gif" height="40"/> -->
 			</p>
 
 
 			<h4 ng-show="myBirthday">
 				Bonne Fête à toi {{$root.me.get_title()}}&nbsp;
+				<img src="./images/gift.gif" height="40"/>
 			</h4>
 
 			<h4 ng-show="people.length < 1">Aucune fête aujourd'hui</h4>
